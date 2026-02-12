@@ -1,4 +1,4 @@
-export default function displayCityCard(cityObject) {
+export function displayCityCard(weather, forecast) {
   console.log("Hola desde display city card");
   const section = document.getElementById("card-display-section");
 
@@ -14,7 +14,7 @@ export default function displayCityCard(cityObject) {
         >
           <div class="flex justify-between items-start md:items-center">
             <div>
-              <h3 class="text-xl md:text-3xl font-bold">${cityObject.name}, ${cityObject.sys.country}</h3>
+              <h3 class="text-xl md:text-3xl font-bold">${weather.name}, ${weather.sys.country}</h3>
               <p
                 class="text-blue-100 text-sm md:text-base flex items-center gap-1 mt-1"
               >
@@ -38,7 +38,7 @@ export default function displayCityCard(cityObject) {
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                Capital de Alemania
+                Ciudad Seleccionada
               </p>
             </div>
             <button
@@ -57,20 +57,20 @@ export default function displayCityCard(cityObject) {
             class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-0 mb-6"
           >
             <div class="flex items-center gap-4">
-              <span class="text-5xl md:text-6xl">⛅</span>
+              <span class="text-5xl md:text-6xl">${getWeatherIcon(weather.weather[0].icon)}</span>
               <div>
                 <span class="text-4xl md:text-5xl font-bold text-gray-800"
-                  >18°</span
+                  >${Math.round(weather.main.temp)}°</span
                 >
                 <span class="text-gray-500">C</span>
                 <p class="text-gray-600 text-sm md:text-base font-medium">
-                  Parcialmente nublado
+                  ${getWeatherDescription(weather.weather[0].icon)}
                 </p>
               </div>
             </div>
             <div class="text-left md:text-right text-gray-600 ml-16 md:ml-0">
               <p class="text-xs md:text-sm">Sensación térmica</p>
-              <p class="text-lg md:text-xl font-semibold">17°C</p>
+              <p class="text-lg md:text-xl font-semibold">${Math.round(weather.main.feels_like)}°C</p>
             </div>
           </div>
 
@@ -80,15 +80,15 @@ export default function displayCityCard(cityObject) {
           >
             <div class="text-center">
               <p class="text-gray-500 text-xs md:text-sm">Humedad</p>
-              <p class="text-lg md:text-xl font-bold text-gray-800">76%</p>
+              <p class="text-lg md:text-xl font-bold text-gray-800">${weather.main.humidity}%</p>
             </div>
             <div class="text-center">
               <p class="text-gray-500 text-xs md:text-sm">Viento</p>
-              <p class="text-lg md:text-xl font-bold text-gray-800">15 km/h</p>
+              <p class="text-lg md:text-xl font-bold text-gray-800">${(weather.wind.speed * 3.6).toFixed(1)} km/h</p>
             </div>
             <div class="text-center">
               <p class="text-gray-500 text-xs md:text-sm">Prob. lluvia</p>
-              <p class="text-lg md:text-xl font-bold text-gray-800">30%</p>
+              <p class="text-lg md:text-xl font-bold text-gray-800">${(forecast.list[0].pop * 100).toFixed(0)}% </p>
             </div>
           </div>
 
@@ -159,28 +159,32 @@ export default function displayCityCard(cityObject) {
             >
               <div class="flex-shrink-0 w-16 md:w-auto text-center">
                 <p class="text-gray-600 text-sm md:text-base">Lun</p>
-                <span class="text-2xl md:text-3xl block">⛅</span>
-                <p class="font-bold text-sm md:text-base">19°/14°</p>
+                <span class="text-2xl md:text-3xl block">${getWeatherIcon(forecast.list[0].weather[0].icon)}</span>
+                <p class="font-bold text-sm md:text-base">${Math.round(forecast.list[0].main.temp_max)}°</p>
               </div>
               <div class="flex-shrink-0 w-16 md:w-auto text-center">
                 <p class="text-gray-600 text-sm md:text-base">Mar</p>
-                <span class="text-2xl md:text-3xl block">☀️</span>
-                <p class="font-bold text-sm md:text-base">22°/15°</p>
+                <span class="text-2xl md:text-3xl block">${getWeatherIcon(forecast.list[7].weather[0].icon)}</span>
+                <p class="font-bold text-sm md:text-base">${Math.round(forecast.list[7].main.temp_max)}°</p>
+             
               </div>
               <div class="flex-shrink-0 w-16 md:w-auto text-center">
                 <p class="text-gray-600 text-sm md:text-base">Mié</p>
-                <span class="text-2xl md:text-3xl block">🌧️</span>
-                <p class="font-bold text-sm md:text-base">16°/12°</p>
+                <span class="text-2xl md:text-3xl block">${getWeatherIcon(forecast.list[15].weather[0].icon)}</span>
+                <p class="font-bold text-sm md:text-base">${Math.round(forecast.list[15].main.temp_max)}°</p>
+             
               </div>
               <div class="flex-shrink-0 w-16 md:w-auto text-center">
                 <p class="text-gray-600 text-sm md:text-base">Jue</p>
-                <span class="text-2xl md:text-3xl block">☁️</span>
-                <p class="font-bold text-sm md:text-base">17°/13°</p>
+                <span class="text-2xl md:text-3xl block">${getWeatherIcon(forecast.list[23].weather[0].icon)}</span>
+                <p class="font-bold text-sm md:text-base">${Math.round(forecast.list[23].main.temp_max)}°</p>
+             
               </div>
               <div class="flex-shrink-0 w-16 md:w-auto text-center">
                 <p class="text-gray-600 text-sm md:text-base">Vie</p>
-                <span class="text-2xl md:text-3xl block">⛅</span>
-                <p class="font-bold text-sm md:text-base">20°/14°</p>
+                <span class="text-2xl md:text-3xl block">${getWeatherIcon(forecast.list[31].weather[0].icon)}</span>
+                <p class="font-bold text-sm md:text-base">${Math.round(forecast.list[31].main.temp_max)}°</p>
+             
               </div>
             </div>
           </div>
@@ -200,4 +204,53 @@ export default function displayCityCard(cityObject) {
       `;
 
   section.appendChild(article);
+}
+
+function getWeatherIcon(iconCode) {
+  const iconMap = {
+    "01d": "☀️",
+    "01n": "🌙",
+    "02d": "⛅",
+    "02n": "☁️",
+    "03d": "☁️",
+    "03n": "☁️",
+    "04d": "☁️",
+    "04n": "☁️",
+    "09d": "🌧️",
+    "09n": "🌧️",
+    "10d": "🌦️",
+    "10n": "🌧️",
+    "11d": "⛈️",
+    "11n": "⛈️",
+    "13d": "❄️",
+    "13n": "❄️",
+    "50d": "🌫️",
+    "50n": "🌫️",
+  };
+  return iconMap[iconCode] || "☀️";
+}
+
+function getWeatherDescription(iconCode) {
+  const descripcionMap = {
+    "01d": "Cielo despejado",
+    "01n": "Cielo despejado",
+    "02d": "Parcialmente nublado",
+    "02n": "Parcialmente nublado",
+    "03d": "Nubes dispersas",
+    "03n": "Nubes dispersas",
+    "04d": "Muy nublado",
+    "04n": "Muy nublado",
+    "09d": "Lluvia ligera",
+    "09n": "Lluvia ligera",
+    "10d": "Lluvia",
+    "10n": "Lluvia",
+    "11d": "Tormenta",
+    "11n": "Tormenta",
+    "13d": "Nieve",
+    "13n": "Nieve",
+    "50d": "Niebla",
+    "50n": "Niebla",
+  };
+
+  return descripcionMap[iconCode] || "Clima variable";
 }

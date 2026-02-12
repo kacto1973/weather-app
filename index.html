@@ -39,7 +39,7 @@
     </section>
     <section class="p-5 flex flex-col items-center">
       <h2 class="font-bold text-lg md:text-2xl">
-        Ingresa el nombre de la ciudad que desees visitar
+        Ingresa el nombre de la ciudad de tu interés
       </h2>
       <div>
         <input
@@ -58,17 +58,20 @@
     </section>
     <section id="card-display-section"></section>
     <script type="module">
-      import getForecast from "./javascript/api/fetch.js";
-      import displayCityCard from "./javascript/utils/display.js";
+      import { getForecast, getWeather } from "./javascript/api/fetch.js";
+      import { displayCityCard } from "./javascript/utils/display.js";
 
       const searchButton = document.getElementById("search-city-button");
       const searchInput = document.getElementById("search-city-input");
 
       searchButton.addEventListener("click", async () => {
-        const cityObject = await getForecast(searchInput.value);
-        const success = await displayCityCard(cityObject);
+        const weather = await getWeather(searchInput.value);
+        const forecast = await getForecast(searchInput.value);
 
-        console.log("Resultados del fetch: ", cityObject);
+        const success = await displayCityCard(weather, forecast);
+
+        console.log("WEATHER FETCH: ", weather);
+        console.log("FORECAST FETCH: ", forecast);
       });
     </script>
   </body>
