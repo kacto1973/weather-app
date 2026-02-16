@@ -3,11 +3,11 @@ export function displayCityCard(weather, forecast, places) {
   const section = document.getElementById("card-display-section");
   section.innerHTML = "";
 
-  const article = document.createElement("article");
-  article.className =
+  const cityCardArticle = document.createElement("article");
+  cityCardArticle.className =
     "my-10 bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 max-w-sm md:max-w-4xl mx-auto";
 
-  article.innerHTML = `
+  cityCardArticle.innerHTML = `
       
         <!-- Cabecera con ciudad y favorito -->
         <div
@@ -93,32 +93,10 @@ export function displayCityCard(weather, forecast, places) {
             </div>
           </div>
 
-          <!-- Recomendaciones - Mobile: vertical, Desktop: 2 columnas -->
-          <div class="mt-6">
-            <h4
-              class="font-semibold text-gray-800 text-base md:text-lg mb-3 flex items-center gap-2"
-            >
-              <span class="text-xl">💡</span>
-              Recomendaciones para hoy
-            </h4>
-            <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">           
-              
-            ${places.features.map((place) => {
-              return `<li
-                class="flex items-start gap-2 text-sm md:text-base text-gray-700 md:col-span-2"
-              >
-                <span class="text-green-500 text-lg">✓</span>
-                <span
-                  ><span class="font-medium">${place.properties.name}</span
-                >
-              </li>`;
-            })}  
-
-            </ul>
-          </div>
+        
 
           <!-- Pronóstico 5 días - Mobile: horizontal scroll, Desktop: grid normal -->
-          <div class="mt-6 pt-4 border-t border-gray-200">
+          <div class="mt-6 pt-4">
             <h4 class="font-semibold text-gray-800 text-base md:text-lg mb-3">
               Pronóstico 5 días
             </h4>
@@ -171,7 +149,28 @@ export function displayCityCard(weather, forecast, places) {
         </div>
       `;
 
-  section.appendChild(article);
+  const placesArticle = document.createElement("article");
+  placesArticle.className =
+    "my-10 bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 max-w-sm md:max-w-4xl mx-auto";
+  placesArticle.innerHTML = `
+    <div class="p-4 md:p-6">
+      <h4 class="font-semibold text-gray-800 text-base md:text-lg mb-3">Lugares turísticos cercanos</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        ${places.features
+          .map(
+            (place) => `
+          <div class="border rounded-lg p-4 flex flex-col gap-2">
+            <h5 class="font-bold text-gray-800">${place.properties.name || "Lugar sin nombre"}</h5>
+          </div>
+        `,
+          )
+          .join("")}
+      </div>
+    </div>
+  `;
+
+  section.appendChild(cityCardArticle);
+  section.appendChild(placesArticle);
 }
 
 function getWeatherIcon(iconCode) {
