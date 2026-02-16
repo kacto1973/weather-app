@@ -15,11 +15,6 @@ export async function getForecast(nombreCiudad) {
 export async function getPlaces(nombreCiudad) {
   const cityName = nombreCiudad.trim();
 
-  if (!cityName) {
-    alert("Por favor ingresa una ciudad");
-    return;
-  }
-
   try {
     // Mostrar mensaje de carga (opcional)
     console.log(`Buscando lugares en ${cityName}...`);

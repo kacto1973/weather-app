@@ -43,6 +43,11 @@
       const searchInput = document.getElementById("search-city-input");
 
       searchButton.addEventListener("click", async () => {
+        if (searchInput.value.trim() === "") {
+          alert("Por favor ingresa una ciudad");
+          return;
+        }
+
         const weather = await getWeather(searchInput.value);
         const forecast = await getForecast(searchInput.value);
         const places = await getPlaces(searchInput.value);
