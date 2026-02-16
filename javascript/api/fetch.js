@@ -1,11 +1,13 @@
+import { CONFIG } from "../../config.js";
+
 export async function getWeather(nombreCiudad) {
-  const fetchUrl = `https://api.openweathermap.org/data/2.5/weather?q=${nombreCiudad}&appid=22866b901f0841c146aa3a87dd521a4d&units=metric&lang=es`;
+  const fetchUrl = `https://api.openweathermap.org/data/2.5/weather?q=${nombreCiudad}&appid=${CONFIG.OPEN_WEATHER_API_KEY}&units=metric&lang=es`;
   const res = await fetch(fetchUrl);
   return res.json();
 }
 
 export async function getForecast(nombreCiudad) {
-  const fetchUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${nombreCiudad}&appid=22866b901f0841c146aa3a87dd521a4d&units=metric`;
+  const fetchUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${nombreCiudad}&appid=${CONFIG.OPEN_WEATHER_API_KEY}&units=metric`;
   const res = await fetch(fetchUrl);
   return res.json();
 }
@@ -18,15 +20,13 @@ export async function getPlaces(nombreCiudad) {
     return;
   }
 
-  const apiKey = "5ae2e3f221c38a28845f05b6f737692089db5f8080bca096fcb65f53";
-
   try {
     // Mostrar mensaje de carga (opcional)
     console.log(`Buscando lugares en ${cityName}...`);
 
     // 1. Primero obtener las coordenadas de la ciudad
     const geonameResponse = await fetch(
-      `https://api.opentripmap.com/0.1/en/places/geoname?name=${cityName}&apikey=${apiKey}`,
+      `https://api.opentripmap.com/0.1/en/places/geoname?name=${cityName}&apikey=${CONFIG.OPEN_TRIP_MAP_API_KEY}`,
     );
 
     const geonameData = await geonameResponse.json();
@@ -38,7 +38,7 @@ export async function getPlaces(nombreCiudad) {
 
     // 2. Obtener lugares turísticos cercanos
     const placesResponse = await fetch(
-      `https://api.opentripmap.com/0.1/en/places/radius?radius=5000&lon=${geonameData.lon}&lat=${geonameData.lat}&limit=20&apikey=${apiKey}`,
+      `https://api.opentripmap.com/0.1/en/places/radius?radius=5000&lon=${geonameData.lon}&lat=${geonameData.lat}&limit=20&apikey=${CONFIG.OPEN_TRIP_MAP_API_KEY}`,
     );
 
     const placesData = await placesResponse.json();
