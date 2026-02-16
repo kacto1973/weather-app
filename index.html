@@ -58,7 +58,11 @@
     </section>
     <section id="card-display-section"></section>
     <script type="module">
-      import { getForecast, getWeather } from "./javascript/api/fetch.js";
+      import {
+        getForecast,
+        getWeather,
+        getPlaces,
+      } from "./javascript/api/fetch.js";
       import { displayCityCard } from "./javascript/utils/display.js";
 
       const searchButton = document.getElementById("search-city-button");
@@ -67,11 +71,13 @@
       searchButton.addEventListener("click", async () => {
         const weather = await getWeather(searchInput.value);
         const forecast = await getForecast(searchInput.value);
+        const places = await getPlaces(searchInput.value);
 
-        const success = await displayCityCard(weather, forecast);
+        const success = await displayCityCard(weather, forecast, places);
 
         console.log("WEATHER FETCH: ", weather);
         console.log("FORECAST FETCH: ", forecast);
+        console.log("PLACES FETCH: ", places);
       });
     </script>
   </body>

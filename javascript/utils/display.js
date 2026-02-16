@@ -1,6 +1,7 @@
-export function displayCityCard(weather, forecast) {
+export function displayCityCard(weather, forecast, places) {
   console.log("Hola desde display city card");
   const section = document.getElementById("card-display-section");
+  section.innerHTML = "";
 
   const article = document.createElement("article");
   article.className =
@@ -100,52 +101,19 @@ export function displayCityCard(weather, forecast) {
               <span class="text-xl">💡</span>
               Recomendaciones para hoy
             </h4>
-            <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-              <li
-                class="flex items-start gap-2 text-sm md:text-base text-gray-700"
-              >
-                <span class="text-green-500 text-lg">✓</span>
-                <span
-                  ><span class="font-medium">Puerta de Brandeburgo</span> -
-                  Ideal para fotos</span
-                >
-              </li>
-              <li
-                class="flex items-start gap-2 text-sm md:text-base text-gray-700"
-              >
-                <span class="text-green-500 text-lg">✓</span>
-                <span
-                  ><span class="font-medium">Museo de Pérgamo</span> -
-                  Temperatura templada</span
-                >
-              </li>
-              <li
-                class="flex items-start gap-2 text-sm md:text-base text-gray-700"
-              >
-                <span class="text-green-500 text-lg">✓</span>
-                <span
-                  ><span class="font-medium">East Side Gallery</span> - Paseo al
-                  aire libre</span
-                >
-              </li>
-              <li
-                class="flex items-start gap-2 text-sm md:text-base text-gray-700"
-              >
-                <span class="text-green-500 text-lg">✓</span>
-                <span
-                  ><span class="font-medium">Café en Kreuzberg</span> - Tarde
-                  tranquila</span
-                >
-              </li>
-              <li
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">           
+              
+            ${places.features.map((place) => {
+              return `<li
                 class="flex items-start gap-2 text-sm md:text-base text-gray-700 md:col-span-2"
               >
                 <span class="text-green-500 text-lg">✓</span>
                 <span
-                  ><span class="font-medium">Torre de TV</span> - Vista
-                  panorámica de la ciudad</span
+                  ><span class="font-medium">${place.properties.name}</span
                 >
-              </li>
+              </li>`;
+            })}  
+
             </ul>
           </div>
 
