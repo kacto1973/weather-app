@@ -30,7 +30,35 @@
         </button>
       </div>
     </section>
-    <section id="card-display-section"></section>
+    <section class="flex flex-col md:flex-row gap-10 p-5 justify-center">
+      <article id="card-display-section"></article>
+      <article class="flex flex-col items-center">
+        <h2 class="font-bold text-lg">Historial de Búsqueda</h2>
+        <ul id="search-history-list">
+          <li
+            class="hover:scale-105 transition-transform duration-300 border border-2 border-gray-300 rounded-md px-4 py-4 my-2 shadow-lg w-[300px] flex justify-center cursor-pointer"
+          >
+            MANCHESTER X
+          </li>
+        </ul>
+      </article>
+      <article class="flex flex-col items-center">
+        <h2 class="font-bold text-lg">Tus Lugares Favoritos</h2>
+        <ul id="search-history-list gap-5">
+          <li
+            class="hover:scale-105 transition-transform duration-300 rounded-md px-4 py-4 my-2 w-[300px] flex justify-center cursor-pointer bg-gradient-to-r from-blue-600 to-blue-400 p-4 md:p-6 text-white font-bold"
+          >
+            LONDON
+          </li>
+          <li
+            class="hover:scale-105 transition-transform duration-300 rounded-md px-4 py-4 my-2 w-[300px] flex justify-center cursor-pointer bg-gradient-to-r from-blue-600 to-blue-400 p-4 md:p-6 text-white font-bold"
+          >
+            Hermosillo
+          </li>
+        </ul>
+      </article>
+    </section>
+
     <script type="module">
       import {
         getForecast,

@@ -5,7 +5,7 @@ export function displayCityCard(weather, forecast, places) {
 
   const cityCardArticle = document.createElement("article");
   cityCardArticle.className =
-    "my-10 bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 max-w-sm md:max-w-4xl mx-auto";
+    "bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 max-w-sm md:max-w-4xl mx-auto";
 
   cityCardArticle.innerHTML = `
       
