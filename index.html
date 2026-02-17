@@ -32,31 +32,16 @@
     </section>
     <section class="flex flex-col md:flex-row gap-10 p-5 justify-center">
       <article id="card-display-section"></article>
-      <article class="flex flex-col items-center">
-        <h2 class="font-bold text-lg">Historial de Búsqueda</h2>
-        <ul id="search-history-list">
-          <li
-            class="hover:scale-105 transition-transform duration-300 border border-2 border-gray-300 rounded-md px-4 py-4 my-2 shadow-lg w-[300px] flex justify-center cursor-pointer"
-          >
-            MANCHESTER X
-          </li>
-        </ul>
-      </article>
-      <article class="flex flex-col items-center">
-        <h2 class="font-bold text-lg">Tus Lugares Favoritos</h2>
-        <ul id="search-history-list gap-5">
-          <li
-            class="hover:scale-105 transition-transform duration-300 rounded-md px-4 py-4 my-2 w-[300px] flex justify-center cursor-pointer bg-gradient-to-r from-blue-600 to-blue-400 p-4 md:p-6 text-white font-bold"
-          >
-            LONDON
-          </li>
-          <li
-            class="hover:scale-105 transition-transform duration-300 rounded-md px-4 py-4 my-2 w-[300px] flex justify-center cursor-pointer bg-gradient-to-r from-blue-600 to-blue-400 p-4 md:p-6 text-white font-bold"
-          >
-            Hermosillo
-          </li>
-        </ul>
-      </article>
+      <div class="flex flex-col gap-5">
+        <article class="flex flex-col items-center">
+          <h2 class="font-bold text-lg">Historial de Búsqueda</h2>
+          <ul id="search-history-list"></ul>
+        </article>
+        <article class="flex flex-col items-center">
+          <h2 class="font-bold text-lg">Tus Lugares Favoritos</h2>
+          <ul id="favorites-list"></ul>
+        </article>
+      </div>
     </section>
 
     <script type="module">
@@ -65,7 +50,12 @@
         getWeather,
         getPlaces,
       } from "./javascript/api/fetch.js";
-      import { displayCityCard } from "./javascript/utils/display.js";
+      import {
+        displayCityCard,
+        saveToHistory,
+        loadHistory,
+        loadFavorites,
+      } from "./javascript/utils/display.js";
 
       const searchButton = document.getElementById("search-city-button");
       const searchInput = document.getElementById("search-city-input");
@@ -76,6 +66,8 @@
           return;
         }
 
+        saveToHistory(searchInput.value);
+
         const weather = await getWeather(searchInput.value);
         const forecast = await getForecast(searchInput.value);
         const places = await getPlaces(searchInput.value);
@@ -85,7 +77,11 @@
         console.log("WEATHER FETCH: ", weather);
         console.log("FORECAST FETCH: ", forecast);
         console.log("PLACES FETCH: ", places);
+        loadHistory();
       });
+
+      loadHistory();
+      loadFavorites();
     </script>
   </body>
 </html>

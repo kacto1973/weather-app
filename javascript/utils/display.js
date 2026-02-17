@@ -3,6 +3,8 @@ export function displayCityCard(weather, forecast, places) {
   const section = document.getElementById("card-display-section");
   section.innerHTML = "";
 
+  const esFavorito = isFavorite();
+
   const cityCardArticle = document.createElement("article");
   cityCardArticle.className =
     "bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 max-w-sm md:max-w-4xl mx-auto";
@@ -43,10 +45,10 @@ export function displayCityCard(weather, forecast, places) {
               </p>
             </div>
             <button
-              class="text-2xl md:text-3xl hover:scale-110 transition-transform"
-              aria-label="Añadir a favoritos"
+              class="text-md rounded-md px-4 py-2 bg-white font-bold hover:bg-yellow-400 text-black hover:text-white transition-colors duration-300"
+              id="add-favorite-btn"
             >
-              ☆
+              ${esFavorito ? "Favorito ⭐" : "Agregar a favoritos"}
             </button>
           </div>
         </div>
@@ -134,18 +136,6 @@ export function displayCityCard(weather, forecast, places) {
               </div>
             </div>
           </div>
-
-          <!-- Última actualización -->
-          <div
-            class="mt-4 text-xs md:text-sm text-gray-500 flex flex-col md:flex-row justify-between items-start md:items-center gap-2"
-          >
-            <span>🕐 Actualizado: 10:30 AM</span>
-            <span
-              class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs md:text-sm w-fit"
-            >
-              ⭐ Favorito
-            </span>
-          </div>
         </div>
       `;
 
@@ -171,6 +161,149 @@ export function displayCityCard(weather, forecast, places) {
 
   section.appendChild(cityCardArticle);
   section.appendChild(placesArticle);
+
+  const favoriteBtn = document.getElementById("add-favorite-btn");
+  favoriteBtn.addEventListener("click", () => {
+    const nombreCiudad = document.getElementById("search-city-input").value;
+    addToFavorites(nombreCiudad);
+    loadFavorites();
+  });
+}
+
+function isFavorite() {
+  const nombreCiudad = document.getElementById("search-city-input").value;
+  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  return favorites.includes(nombreCiudad.toLowerCase());
+}
+
+function addToFavorites(nombreCiudad) {
+  console.log("Agregando a favoritos: ", nombreCiudad);
+
+  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  const exists = favorites.find((item) => item === nombreCiudad.toLowerCase());
+
+  if (!exists) {
+    favorites.push(nombreCiudad.toLowerCase());
+    //sobreescribimos el antiguo favoritos con el nuevo
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }
+}
+
+function deleteFromFavorites(nombreCiudad) {
+  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  const newFavorites = favorites.filter(
+    (item) => item != nombreCiudad.toLowerCase(),
+  );
+
+  //sobreescribimos el antiguo favoritos con el nuevo
+  localStorage.setItem("favorites", JSON.stringify(newFavorites));
+}
+
+function getFavorites() {
+  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  return favorites;
+}
+
+export function saveToHistory(nombreCiudad) {
+  const history = JSON.parse(localStorage.getItem("history")) || [];
+
+  const exists = history.find((item) => item === nombreCiudad.toLowerCase());
+
+  if (!exists) {
+    history.push(nombreCiudad.toLowerCase());
+    //sobreescribimos el antiguo historial con el nuevo
+    localStorage.setItem("history", JSON.stringify(history));
+  }
+}
+
+function deleteFromHistory(nombreCiudad) {
+  const history = JSON.parse(localStorage.getItem("history")) || [];
+
+  const newHistory = history.filter(
+    (item) => item != nombreCiudad.toLowerCase(),
+  );
+
+  //sobreescribimos el antiguo historial con el nuevo
+  localStorage.setItem("history", JSON.stringify(newHistory));
+}
+
+function getHistory() {
+  const history = JSON.parse(localStorage.getItem("history")) || [];
+
+  return history;
+}
+
+export function loadFavorites() {
+  const favoritesList = document.getElementById("favorites-list");
+  favoritesList.innerHTML = "";
+
+  const favorites = getFavorites();
+
+  favorites.forEach((ciudad) => {
+    const li = document.createElement("li");
+    li.className =
+      "hover:scale-105 transition-transform duration-300 rounded-md px-4 py-4 my-2 w-[300px] flex justify-center cursor-pointer bg-gradient-to-r from-blue-600 to-blue-400 p-4 md:p-6 text-white font-bold";
+
+    li.innerHTML = `
+      <span>${ciudad}</span>
+      <button class="delete-btn absolute right-6 top-3 text-red-500 hover:text-red-700 font-bold text-xl" aria-label="Eliminar">
+        X
+      </button>
+    `;
+
+    const deleteBtn = li.querySelector(".delete-btn");
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      deleteFromFavorites(ciudad);
+      li.remove();
+    });
+
+    li.addEventListener("click", (e) => {
+      console.log("Ciudad seleccionada desde los favoritos: ", ciudad);
+      document.getElementById("search-city-input").value = ciudad;
+      document.getElementById("search-city-button").click();
+    });
+
+    favoritesList.appendChild(li);
+  });
+}
+
+export function loadHistory() {
+  const historyList = document.getElementById("search-history-list");
+  historyList.innerHTML = "";
+
+  const history = getHistory();
+
+  history.forEach((ciudad) => {
+    const li = document.createElement("li");
+    li.className =
+      "hover:scale-105 relative transition-transform duration-300 border border-2 border-gray-300 rounded-md px-4 py-4 my-2 shadow-lg w-[300px] flex justify-center cursor-pointer";
+
+    li.innerHTML = `
+      <span>${ciudad}</span>
+      <button class="delete-btn absolute right-6 top-3 text-red-500 hover:text-red-700 font-bold text-xl" aria-label="Eliminar">
+        X
+      </button>
+    `;
+
+    const deleteBtn = li.querySelector(".delete-btn");
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      deleteFromHistory(ciudad);
+      li.remove();
+    });
+
+    li.addEventListener("click", (e) => {
+      console.log("Ciudad seleccionada desde el historial: ", ciudad);
+      document.getElementById("search-city-input").value = ciudad;
+      document.getElementById("search-city-button").click();
+    });
+
+    historyList.appendChild(li);
+  });
 }
 
 function getWeatherIcon(iconCode) {
