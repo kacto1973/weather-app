@@ -7,7 +7,9 @@ Instrucciones de instalación/ejecución.
 1-Ejecutamos el comando para clonar el repositorio:
 git clone https://github.com/kacto1973/weather-app
 
-https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCA9GPKfLMAqi66o5q5SLkDyZEPpObcqaU2A&s
+![Alt text]([https://assets.digitalocean.com/articles/alligator/boo.svg](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCA9GPKfLMAqi66o5q5SLkDyZEPpObcqaU2A&s
+) "dog")
+
 
 Capturas de pantalla.
 Demostración funcional (enlace a sitio publicado
