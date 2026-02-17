@@ -245,11 +245,11 @@ export function loadFavorites() {
   favorites.forEach((ciudad) => {
     const li = document.createElement("li");
     li.className =
-      "hover:scale-105 transition-transform duration-300 rounded-md px-4 py-4 my-2 w-[300px] flex justify-center cursor-pointer bg-gradient-to-r from-blue-600 to-blue-400 p-4 md:p-6 text-white font-bold";
+      "hover:scale-105 relative transition-transform duration-300 rounded-md px-4 py-4 my-2 w-[300px] flex justify-center cursor-pointer bg-gradient-to-r from-blue-600 to-blue-400 p-4 md:p-6 text-white font-bold";
 
     li.innerHTML = `
       <span>${ciudad}</span>
-      <button class="delete-btn absolute right-6 top-3 text-red-500 hover:text-red-700 font-bold text-xl" aria-label="Eliminar">
+      <button class="delete-btn absolute right-2 top-1 text-white font-bold text-xl" aria-label="Eliminar">
         X
       </button>
     `;
@@ -284,7 +284,7 @@ export function loadHistory() {
 
     li.innerHTML = `
       <span>${ciudad}</span>
-      <button class="delete-btn absolute right-6 top-3 text-red-500 hover:text-red-700 font-bold text-xl" aria-label="Eliminar">
+      <button class="delete-btn absolute right-2 top-1 text-red-500 hover:text-red-700 font-bold text-xl" aria-label="Eliminar">
         X
       </button>
     `;
