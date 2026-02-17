@@ -1,5 +1,10 @@
 export function displayCityCard(weather, forecast, places) {
   console.log("Hola desde display city card");
+
+  localStorage.setItem("currentWeather", JSON.stringify(weather));
+  localStorage.setItem("currentForecast", JSON.stringify(forecast));
+  localStorage.setItem("currentPlaces", JSON.stringify(places));
+
   const section = document.getElementById("card-display-section");
   section.innerHTML = "";
 
@@ -46,7 +51,7 @@ export function displayCityCard(weather, forecast, places) {
             </div>
             <button
               class="text-md rounded-md px-4 py-2 bg-white font-bold hover:bg-yellow-400 text-black hover:text-white transition-colors duration-300"
-              id="add-favorite-btn"
+              id="favorite-btn"
             >
               ${esFavorito ? "Favorito ⭐" : "Agregar a favoritos"}
             </button>
@@ -162,11 +167,16 @@ export function displayCityCard(weather, forecast, places) {
   section.appendChild(cityCardArticle);
   section.appendChild(placesArticle);
 
-  const favoriteBtn = document.getElementById("add-favorite-btn");
+  const favoriteBtn = document.getElementById("favorite-btn");
   favoriteBtn.addEventListener("click", () => {
     const nombreCiudad = document.getElementById("search-city-input").value;
-    addToFavorites(nombreCiudad);
+    if (isFavorite()) {
+      deleteFromFavorites(nombreCiudad);
+    } else {
+      addToFavorites(nombreCiudad);
+    }
     loadFavorites();
+    displayCityCard(weather, forecast, places);
   });
 }
 
@@ -259,6 +269,19 @@ export function loadFavorites() {
       e.stopPropagation();
       deleteFromFavorites(ciudad);
       li.remove();
+
+      const currentCity = document
+        .getElementById("search-city-input")
+        .value.toLowerCase();
+      if (currentCity === ciudad) {
+        displayCityCard(
+          JSON.parse(localStorage.getItem("currentWeather")),
+          JSON.parse(localStorage.getItem("currentForecast")),
+          JSON.parse(localStorage.getItem("currentPlaces")),
+        );
+      } else {
+        loadFavorites();
+      }
     });
 
     li.addEventListener("click", (e) => {
