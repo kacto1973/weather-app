@@ -60,15 +60,34 @@
       const searchButton = document.getElementById("search-city-button");
       const searchInput = document.getElementById("search-city-input");
 
+      searchInput.addEventListener("input", function (e) {
+        // Solo letras (con tildes), espacios y guiones
+        this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúñÑ\s-]/g, "");
+      });
+
       searchButton.addEventListener("click", async () => {
         if (searchInput.value.trim() === "") {
           alert("Por favor ingresa una ciudad");
           return;
         }
 
+        function checkInternetConnection() {
+          return navigator.onLine;
+        }
+        if (!checkInternetConnection()) {
+          alert("No hay conexión a internet. Por favor, verifica tu conexión.");
+          return;
+        }
+
         saveToHistory(searchInput.value);
 
         const weather = await getWeather(searchInput.value);
+
+        if (!weather || weather.cod === "404") {
+          alert("Ciudad no encontrada. Por favor, intenta con otra ciudad.");
+          return;
+        }
+
         const forecast = await getForecast(searchInput.value);
         const places = await getPlaces(searchInput.value);
 
