@@ -5,6 +5,10 @@ export function displayCityCard(weather, forecast, places) {
   localStorage.setItem("currentForecast", JSON.stringify(forecast));
   localStorage.setItem("currentPlaces", JSON.stringify(places));
 
+  const filteredPlaces = places.features.filter(
+    (place) => place.properties.name,
+  );
+
   const section = document.getElementById("card-display-section");
   section.innerHTML = "";
 
@@ -12,7 +16,7 @@ export function displayCityCard(weather, forecast, places) {
 
   const cityCardArticle = document.createElement("article");
   cityCardArticle.className =
-    "bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 max-w-sm md:max-w-4xl mx-auto";
+    "bg-white h-full max-h-[500px] w-[80%] md:w-[700px] rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 max-w-sm md:max-w-4xl mx-auto";
 
   cityCardArticle.innerHTML = `
       
@@ -151,7 +155,7 @@ export function displayCityCard(weather, forecast, places) {
     <div class="p-4 md:p-6">
       <h4 class="font-semibold text-gray-800 text-base md:text-lg mb-3">Lugares turísticos cercanos</h4>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        ${places.features
+        ${filteredPlaces
           .map(
             (place) => `
           <div class="border rounded-lg p-4 flex flex-col gap-2">
@@ -165,7 +169,10 @@ export function displayCityCard(weather, forecast, places) {
   `;
 
   section.appendChild(cityCardArticle);
-  section.appendChild(placesArticle);
+
+  const placesSection = document.getElementById("places-section");
+  placesSection.innerHTML = "";
+  placesSection.appendChild(placesArticle);
 
   const favoriteBtn = document.getElementById("favorite-btn");
   favoriteBtn.addEventListener("click", () => {
@@ -303,7 +310,7 @@ export function loadHistory() {
   history.forEach((ciudad) => {
     const li = document.createElement("li");
     li.className =
-      "hover:scale-105 relative transition-transform duration-300 border border-2 border-gray-300 rounded-md px-4 py-4 my-2 shadow-lg w-[300px] flex justify-center cursor-pointer";
+      "hover:scale-105 bg-white relative transition-transform duration-300 border border-2 border-gray-300 rounded-md px-4 py-4 my-2 shadow-lg w-[300px] flex justify-center cursor-pointer";
 
     li.innerHTML = `
       <span>${ciudad}</span>
