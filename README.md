@@ -20,17 +20,9 @@ Aplicación enfocada a ayudar a los usuarios a conocer el estado climático de u
 
 ##📸 Capturas de pantalla
 
-Para agregar capturas de pantalla:
+![Vista principal](./screenshots/ss1.png)
 
-    Crea una carpeta llamada screenshots en la raíz del proyecto
-
-    Guarda tus imágenes allí (formato .png o .jpg)
-
-    Agrégalas al README con este formato:
-    markdown
-
-    ![Program1](./screenshots/ss1.png)
-    ![Program2](./screenshots/ss2.png)
+![Otra vista](./screenshots/ss2.png)
 
 ##🌐 Enlace a Sitio web Funcionando
 
